@@ -12,11 +12,12 @@ import DeleteModal from '@/components/DeleteModal';
 import { fetchCards, addCard, updateCard, deleteCard } from '../../api/apiService';
 
 interface CreditCard {
-  id: number;
+  cardId: number;
   name: string;
   bankName: string;
   enabled: boolean;
   createdAt: string;
+  bankId: number;
 }
 
 const CreditCardTable: React.FC = () => {
@@ -49,7 +50,7 @@ const CreditCardTable: React.FC = () => {
   }, [searchText, rowData]);
 
   const columnDefs = useMemo(() => [
-    { headerName: "ID", field: "id" },
+    { headerName: "ID", field: "cardId" },
     { headerName: "Bank Name", field: "bankName" },
     { headerName: "Full Name", field: "name" },
     { headerName: "Created At", field: "createdAt" },
@@ -80,7 +81,7 @@ const CreditCardTable: React.FC = () => {
             Edit
           </button>
           <button
-            onClick={() => handleDeleteModal(params.data.id)}
+            onClick={() => handleDeleteModal(params.data.cardId)}
             className="bg-red-500 text-white px-3 py-2 text-xs font-medium rounded hover:bg-red-800"
           >
             Delete
@@ -91,7 +92,8 @@ const CreditCardTable: React.FC = () => {
   ], []);
 
   const handleEditCard = (card: CreditCard) => {
-    setSelectedCardId(card.id);
+    console.log("handleEditCard", card);
+    setSelectedCardId(card.cardId);
     setModalData({ ...card });
     setIsEditing(true);
     setIsModalOpen(true);
@@ -106,7 +108,7 @@ const CreditCardTable: React.FC = () => {
     try {
       if (selectedCardId) {
         await deleteCard(selectedCardId); // API call to delete the card
-        setRowData(rowData.filter(card => card.id !== selectedCardId));
+        setRowData(rowData.filter(card => card.cardId !== selectedCardId));
         setIsDeleteModalOpen(false);
       }
     } catch (error) {
@@ -120,9 +122,10 @@ const CreditCardTable: React.FC = () => {
         // API call to update the card
         await updateCard(selectedCardId as number, modalData);
         setRowData(rowData.map(card =>
-          card.id === selectedCardId ? { ...modalData, id: selectedCardId } as CreditCard : card
+          card.cardId === selectedCardId ? { ...modalData, cardId: selectedCardId } as CreditCard : card
         ));
       } else {
+        console.log("handleSaveCard", modalData);
         const newCard = {
           name: modalData.name,
           bankName: modalData.bankName,
@@ -131,12 +134,14 @@ const CreditCardTable: React.FC = () => {
   
         // API call to add a new card
         const response = await addCard(newCard);
+        console.log("response", response);
+
         const createdCard = {
-          id: response.cardId,
+          cardId: response.cardId,
           ...newCard,
           createdAt: new Date().toLocaleDateString(),
         };
-        setRowData([...rowData, createdCard]);
+        // setRowData([...rowData, createdCard]);
       }
       setIsModalOpen(false);
     } catch (error) {
@@ -188,10 +193,11 @@ export default CreditCardTable;
 // Helper functions
 const formatCardData = (data: any): CreditCard[] => {
   return data.cards.map((card: any) => ({
-    id: card.cardId,
+    cardId: card.cardId,
     name: card.name,
     bankName: card.bank.name,
     enabled: card.enabled,
     createdAt: new Date(card.createdAt).toLocaleDateString(),
+    bankId: card.bankId
   }));
 };

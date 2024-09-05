@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import './globals.css'; 
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+ const RootLayout = ({ children }: any) => {
   return (
     <html lang="en">
       <body>
@@ -19,3 +19,5 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     </html>
   );
 }
+
+export default RootLayout;

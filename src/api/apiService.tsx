@@ -1,23 +1,23 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000/api/card';
+const baseUrl = 'http://localhost:8000';
 
 export const fetchCards = async () => {
-  const response = await axios.get(API_URL);
+  const response = await axios.get(`${baseUrl}/api/card/`);
   return response.data;
 };
 
 export const addCard = async (cardData: any) => {
-  const response = await axios.post(API_URL, cardData);
+  const response = await axios.post(`${baseUrl}/api/card/`, cardData);
   return response.data;
 };
 
 export const updateCard = async (cardId: number, cardData: any) => {
-  const response = await axios.put(`${API_URL}/${cardId}`, cardData);
+  const response = await axios.put(`${baseUrl}/api/card/${cardId}`, cardData);
   return response.data;
 };
 
 export const deleteCard = async (cardId: number) => {
-  const response = await axios.delete(`${API_URL}/${cardId}`);
+  const response = await axios.delete(`${baseUrl}/api/card/${cardId}`);
   return response.data;
 };

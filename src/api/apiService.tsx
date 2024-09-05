@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'https://credit-card-app-backend.onrender.com';
+export const baseUrl = 'https://credit-card-app-backend.onrender.com';
 // const baseUrl = 'http://localhost:8000';
 
 export const fetchCards = async () => {

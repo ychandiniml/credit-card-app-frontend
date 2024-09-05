@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { Switch } from '@headlessui/react';
 import axios from 'axios';
+import { baseUrl } from '@/api/apiService';
 
 interface Bank {
   bankId: number;
@@ -22,7 +23,7 @@ const CardModal: React.FC<CardModalProps> = ({ isOpen, onRequestClose, isEditing
 
   useEffect(() => {
     if (isOpen) {
-      axios.get('http://localhost:8000/api/bank')
+      axios.get(`${baseUrl}/api/bank`)
         .then((response) => {
           setBanks(response.data.banks);
         })

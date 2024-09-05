@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const baseUrl = 'https://credit-card-app-backend.onrender.com';
+// const baseUrl = 'http://localhost:8000';
 
 export const fetchCards = async () => {
   const response = await axios.get(`${baseUrl}/api/card/`);
@@ -8,7 +9,7 @@ export const fetchCards = async () => {
 };
 
 export const addCard = async (cardData: any) => {
-  const response = await axios.post(`${baseUrl}/api/card/`, cardData);
+  const response = await axios.post(`${baseUrl}/api/card`, cardData);
   return response.data;
 };
 

@@ -29,7 +29,6 @@ const CreditCardTable: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [selectedCardId, setSelectedCardId] = useState<number | null>(null);
 
-  // Fetch cards from the API on component mount
   useEffect(() => {
     const getCards = async () => {
       try {
@@ -92,7 +91,6 @@ const CreditCardTable: React.FC = () => {
   ], []);
 
   const handleEditCard = (card: CreditCard) => {
-    console.log("handleEditCard", card);
     setSelectedCardId(card.cardId);
     setModalData({ ...card });
     setIsEditing(true);
@@ -107,7 +105,7 @@ const CreditCardTable: React.FC = () => {
   const handleDeleteCard = async () => {
     try {
       if (selectedCardId) {
-        await deleteCard(selectedCardId); // API call to delete the card
+        await deleteCard(selectedCardId);
         setRowData(rowData.filter(card => card.cardId !== selectedCardId));
         setIsDeleteModalOpen(false);
       }
@@ -119,36 +117,31 @@ const CreditCardTable: React.FC = () => {
   const handleSaveCard = async () => {
     try {
       if (isEditing) {
-        // API call to update the card
-        await updateCard(selectedCardId as number, modalData);
-        setRowData(rowData.map(card =>
-          card.cardId === selectedCardId ? { ...modalData, cardId: selectedCardId } as CreditCard : card
-        ));
+        await updateCard(selectedCardId as number, {
+          ...modalData,
+          bankId: modalData.bankId, 
+        });
+
+        const updatedCards = await fetchCards();
+        setRowData(formatCardData(updatedCards));
       } else {
-        console.log("handleSaveCard", modalData);
         const newCard = {
           name: modalData.name,
-          bankName: modalData.bankName,
+          bankId: modalData.bankId, 
           enabled: modalData.enabled,
         };
-  
-        // API call to add a new card
-        const response = await addCard(newCard);
-        console.log("response", response);
 
-        const createdCard = {
-          cardId: response.cardId,
-          ...newCard,
-          createdAt: new Date().toLocaleDateString(),
-        };
-        // setRowData([...rowData, createdCard]);
+        const response = await addCard(newCard);
+
+        const updatedCards = await fetchCards();
+        setRowData(formatCardData(updatedCards));
       }
       setIsModalOpen(false);
     } catch (error) {
       console.error('Error saving card:', error);
     }
   };
-  
+
   const handleAddCard = () => {
     setModalData({ enabled: true });
     setIsEditing(false);
@@ -190,14 +183,14 @@ const CreditCardTable: React.FC = () => {
 
 export default CreditCardTable;
 
-// Helper functions
+// Helper function to format card data
 const formatCardData = (data: any): CreditCard[] => {
   return data.cards.map((card: any) => ({
     cardId: card.cardId,
     name: card.name,
-    bankName: card.bank.name,
+    bankName: card.bank.name, 
     enabled: card.enabled,
     createdAt: new Date(card.createdAt).toLocaleDateString(),
-    bankId: card.bankId
+    bankId: card.bankId 
   }));
 };

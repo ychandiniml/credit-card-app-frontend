@@ -44,7 +44,7 @@ const CardModal: React.FC<CardModalProps> = ({ isOpen, onRequestClose, isEditing
       <div className="bg-white p-6 rounded-lg w-full max-w-lg">
         <h2 className="text-xl font-bold mb-4">{isEditing ? 'Edit Credit Card' : 'Add Credit Card'}</h2>
         <div className="mb-4">
-          <label className="block mb-2 font-semibold">Full Name</label>
+          <label className="block mb-2 font-semibold">Credit Card Name</label>
           <input
             type="text"
             className="w-full p-2 border border-gray-300 rounded"

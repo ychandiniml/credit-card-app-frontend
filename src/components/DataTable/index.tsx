@@ -3,13 +3,13 @@ import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 
-interface CardTableProps {
+interface DataTableProps {
   rowData: any[];
   columnDefs: any[];
   paginationPageSize: number;
 }
 
-const CardTable: React.FC<CardTableProps> = ({ rowData, columnDefs, paginationPageSize }) => (
+const DataTable: React.FC<DataTableProps> = ({ rowData, columnDefs, paginationPageSize }) => (
   <div className="ag-theme-alpine" style={{ height: 400, width: '100%' }}>
     <AgGridReact
       rowData={rowData}
@@ -20,4 +20,4 @@ const CardTable: React.FC<CardTableProps> = ({ rowData, columnDefs, paginationPa
   </div>
 );
 
-export default CardTable;
+export default DataTable;

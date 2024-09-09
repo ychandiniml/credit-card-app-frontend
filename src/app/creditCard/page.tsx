@@ -5,9 +5,9 @@ import { Switch } from '@headlessui/react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import SearchBar from '@/components/SearchBar';
-import AddCardButton from '@/components/AddCardButton';
-import CardTable from '@/components/CardTable';
-import CardModal from '@/components/CardModal';
+import AddButton from '@/components/AddButton';
+import DataTable from '@/components/DataTable';
+import AddCardModal from '@/components/AddCardModal';
 import DeleteModal from '@/components/DeleteModal';
 import { fetchCards, addCard, updateCard, deleteCard } from '../../api/apiService';
 
@@ -48,11 +48,12 @@ const CreditCardTable: React.FC = () => {
     );
   }, [searchText, rowData]);
 
+
   const columnDefs = useMemo(() => [
-    { headerName: "ID", field: "cardId" },
-    { headerName: "Bank Name", field: "bankName" },
-    { headerName: "Full Name", field: "name" },
-    { headerName: "Created At", field: "createdAt" },
+    { headerName: "ID", field: "cardId", sortable: true, filter: true  },
+    { headerName: "Bank Name", field: "bankName", sortable: true, filter: true  },
+    { headerName: "Credit Card Name", field: "name", sortable: true, filter: true  },
+    { headerName: "Created At", field: "createdAt", sortable: true, filter: true  },
     {
       headerName: "Enabled",
       field: "enabled",
@@ -154,16 +155,16 @@ const CreditCardTable: React.FC = () => {
 
       <div className="flex justify-between mb-4">
         <SearchBar searchText={searchText} onSearchChange={(e) => setSearchText(e.target.value)} />
-        <AddCardButton onClick={handleAddCard} />
+        <AddButton onClick={handleAddCard} label="Add Card" />
       </div>
 
-      <CardTable
+      <DataTable
         rowData={filteredData}
         columnDefs={columnDefs}
         paginationPageSize={10}
       />
 
-      <CardModal
+      <AddCardModal
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
         isEditing={isEditing}

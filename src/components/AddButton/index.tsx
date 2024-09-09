@@ -1,16 +1,17 @@
 import React from 'react';
 
-interface AddCardButtonProps {
+interface AddButtonProps {
   onClick: () => void;
+  label: string;
 }
 
-const AddCardButton: React.FC<AddCardButtonProps> = ({ onClick }) => (
+const AddButton: React.FC<AddButtonProps> = ({ onClick, label }) => (
   <button
     onClick={onClick}
     className="bg-green-500 text-white px-4 py-2 rounded"
   >
-    Add Card
+    {label}
   </button>
 );
 
-export default AddCardButton;
+export default AddButton;

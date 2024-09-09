@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-// export const baseUrl = 'https://credit-card-app-backend.onrender.com';
-const baseUrl = 'http://localhost:8000';
+export const baseUrl = 'https://credit-card-app-backend.onrender.com';
+
+// const baseUrl = 'http://localhost:8000';
 
 
 //Card Api's
